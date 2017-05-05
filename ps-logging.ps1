@@ -66,24 +66,25 @@ function write-log()
         [Required] The message being logged.
         .PARAMETER logTime
 
-        [Optional] The timestamp for the log entry. If no value is supplied, this timestamp is calculated in the format yyyy-MM-dd HH:mm:ss by calling get-logtime function.
+        The timestamp for the log entry. If no value is supplied, this timestamp is calculated in the format yyyy-MM-dd HH:mm:ss by calling get-logtime function.
         .PARAMETER logType
 
-        [Optional] Specifies the type of log entry. If no value is supplied, a default of '0' (Error) is assumed.
+        Specifies the type of log entry. If no value is supplied, a default of '0' (Error) is assumed.
         .PARAMETER messageContext
 
-        [Optional] The function or event associated with the log message. If no value is supplied, calculates grandparent function name, or, substitutes '-' for NULL value, in the event of being called from outside a function, by calling get-function.
+        The function or event associated with the log message. If no value is supplied, calculates grandparent function name, or, substitutes '-' for NULL value, in the event of being called from outside a function, by calling get-function.
         .PARAMETER logWho
 
-        [Optional] The name of the user running the script. If no value is supplied, uses global value defined outside these scripts in $global:executingUser.
+        The name of the user running the script. If no value is supplied, uses global value defined outside these scripts in $global:executingUser.
 
         .PARAMETER path
 
-        [Optional] The path to the log file. If no file path specified, uses global value defined outside these scripts in $global:logPath.
+        The path to the log file. If no file path specified, uses global value defined outside these scripts in $global:logPath.
 
         .PARAMETER file
 
-        [Optional] The name of the log file. If no file name is specified, uses global value defined outside these scripts in $global:logFile.
+        The name of the log file. If no file name is specified, uses global value defined outside these scripts in $global:logFile.
+        
         .EXAMPLE
 
         write-log -logMessage "Error doing a thing: ($_.exception.message)."
@@ -92,7 +93,6 @@ function write-log()
         -----------
         Write a simple log message to the default log file, using all default values.
 
-        
         .EXAMPLE
 
         write-log -logMessage "Something unexpected happened reading the DB." -path "C:\path\to\" -file "db.log" -logType 2
@@ -101,6 +101,14 @@ function write-log()
         -----------
         Write to another log file, log level 2 (Info), at C:\path\to\db.log.
         
+        .EXAMPLE
+
+        write-log -logMessage "Message we want logged to file but not screen." -silent $true -logType 2
+
+        Description
+        -----------
+        Write message to log file, but not to screen buffer.
+        
         .NOTES
         [Pre-requisites]
             Global Variables
@@ -108,6 +116,7 @@ function write-log()
                     2.  $global:logPath          -   Log file location
                     3.  $global:logFile          -   Log file name
                     4.  $global:logLevel         -   Define verbosity of log output, values 0-4
+                    5.  $global:silentOperation  -   Set default for screen output
 
         [Other Notes]
             Log Entry Types:
@@ -118,6 +127,8 @@ function write-log()
                     4 = Trace                    -   Granular details, variable values, etc
                     5 = Override                 -   Overrides the globally-defined log level. startup messages, etc.
         Setting a value for $global:logLevel allows one to easily debug script execution by modifying this value, though this is not required. Setting to 0 will log everything, as will passing a value of 0, or specifying no value for -logtype.
+
+        Setting a value for $global:silentOperation is optional. Script will default to $false and output log message to screen. Passing the parameter -silent is also optional, as the globally-defined default value will be used if the parameter is not used.
 
         In a future version, some parameters such as -logTime may be removed.
         #>
@@ -135,7 +146,8 @@ function write-log()
                 [string]$messageContext=(get-function -context 2),
                 [string]$logWho=$global:executingUser,
                 [string]$path=$global:logPath,
-                [string]$file=$global:logFile
+                [string]$file=$global:logFile,
+                [bool]$silent=$(if ( $global:silentOperation -eq $true ) { $true } else { $false } )
             )
 
         $nL="`r`n"
@@ -169,7 +181,7 @@ function write-log()
                     $color="white"
                 }
 
-            $log=join-path $global:logPath -ChildPath $global:logFile
+            $log=join-path $path -ChildPath $file
 
         # If this is called from the script root or from a shell, substitute '-' for the $null value from get-function
         if ( $messageContext -like $null )
@@ -186,7 +198,11 @@ function write-log()
                 # write log file first since writing to screen buffer is typically slower
                 #$currentLogEntry | out-file -append "$global:logPath$global:logFile"
                 write-data -message $currentLogEntry -file $log
-                write-host -fore $color $currentLogEntry
+                if ( !($silent) )
+                    {
+                        # if silent operation is false
+                        write-host -fore $color $currentLogEntry
+                    }
             }
         else
             {
