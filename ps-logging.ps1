@@ -119,7 +119,7 @@ function write-log()
                     5 = Override                 -   Overrides the globally-defined log level. startup messages, etc.
         Setting a value for $global:logLevel allows one to easily debug script execution by modifying this value, though this is not required. Setting to 0 will log everything, as will passing a value of 0, or specifying no value for -logtype.
 
-        In a future version, some parameters such as -logTimemay be removed.
+        In a future version, some parameters such as -logTime may be removed.
         #>
         [CmdletBinding()]
             param
