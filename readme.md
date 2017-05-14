@@ -54,7 +54,69 @@ catch {
 
 
 
+# Another table attempt
 
+<table cellspacing="0" border="1">
+	<colgroup width="200"></colgroup>
+	<colgroup width="800"></colgroup>
+	<tr>
+		<td align="center">Function Name</td>
+		<td align="center">Purpose</td>
+	</tr>
+	<tr>
+		<td align="left">write-data</td>
+		<td align="left">Handles the writing of log data to disk using .NET <code>System.IO.File</code>.
+			<br>
+			<br>
+			Parameters:
+			<br>
+			<br>
+			<strong style="text-decoration: underline;">outputMessage</strong> (required) - Log message
+			<br>
+			<strong style="text-decoration: underline;">outputFile</strong> (required) - Path to log file</td>
+	</tr>
+	<tr>
+		<td align="left">get-logtime</td>
+		<td align="left">Returns current date in as type string, in format <pre>yyyy-MM-dd HH:mm:ss.fff</pre></td>
+	</tr>
+	<tr>
+		<td align="left">get-function</td>
+		<td align="left">Returns the name of the function writing the log.
+			<br>
+			<br>
+			Parameters:
+			<br>
+			<br>
+			<strong style="text-decoration: underline;">context</strong> (optional) - If not specified, defaults to <code>1</code>. This is used to determine what function is making the log request. Context of <code>1</code> will identify the function that called get-function. Context of <code>2</code> will identify the function that called the function that called <code>get-function</code>. If not specified, the function <code>write-log</code> will use <code>-context 2</code>.</td>
+	</tr>
+	<tr>
+		<td align="left">write-log</td>
+		<td align="left">The primary function. All other functions are called by this function.
+			<br>
+			<br>
+			# Parameters:
+			<br>
+			<br>
+			<strong style="text-decoration: underline;">logMessage</strong> (required) - Log message.
+			<br>
+			<strong style="text-decoration: underline;">logTime</strong> (optional) - If not specified, calls <code>get-logtime</code> function.
+			<br>
+			<strong style="text-decoration: underline;">logType</strong> (optional) - Type of log message (error, trace, debug, etc). If not specified, defaults to <code>0</code> (Error).
+			<br>
+			<strong style="text-decoration: underline;">messageContext</strong> (optional) - If not specified, calls <code>get-function -context 2</code> to determine calling function. Can be specified in order to identify other event contexts in log.
+			<br>
+			<strong style="text-decoration: underline;">logWho</strong> - Uses global variable <code>$global:executingUser</code>. Preferred to determine user with <code>Security.Principal.WindowsIdentity]::GetCurrent().Name</code>.
+			<br>
+			<strong style="text-decoration: underline;">path</strong> (optional) - If not specified, uses global variable <code>$global:logPath</code>.
+			<br>
+			<strong style="text-decoration: underline;">file</strong> (optional) - If not specified, uses global variable <code>$global:logFile</code>.
+			<br>
+			<strong style="text-decoration: underline;">silent</strong> (optional) - If not specified, uses global variable <code>$global:silentOperation</code>.
+			<br>
+			<br>
+			The function also relies on another global variable, <code>$global:logLevel</code>, which determines the default behavior of various logs. If a message's $logType is less than $global:logLevel, it will be written to log, and if $global:silentOperation is $false, written to the screen buffer. This allows for script debugging and verbose logging by modifying the value of a single variable (<code>$global:logLevel</code>).</td>
+	</tr>
+</table>
 
 
 
