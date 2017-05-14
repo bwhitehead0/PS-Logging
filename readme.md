@@ -68,7 +68,7 @@ catch {
 		<td align="left">Handles the writing of log data to disk using .NET <code>System.IO.File</code>.
 			<br>
 			<br>
-			Parameters:
+			<strong>Parameters:</strong>
 			<br>
 			<br>
 			<strong style="text-decoration: underline;">outputMessage</strong> (required) - Log message
@@ -84,7 +84,7 @@ catch {
 		<td align="left">Returns the name of the function writing the log.
 			<br>
 			<br>
-			Parameters:
+			<strong>Parameters:</strong>
 			<br>
 			<br>
 			<strong style="text-decoration: underline;">context</strong> (optional) - If not specified, defaults to <code>1</code>. This is used to determine what function is making the log request. Context of <code>1</code> will identify the function that called get-function. Context of <code>2</code> will identify the function that called the function that called <code>get-function</code>. If not specified, the function <code>write-log</code> will use <code>-context 2</code>.</td>
@@ -94,7 +94,7 @@ catch {
 		<td align="left">The primary function. All other functions are called by this function.
 			<br>
 			<br>
-			# Parameters:
+			<strong>Parameters:</strong>
 			<br>
 			<br>
 			<strong style="text-decoration: underline;">logMessage</strong> (required) - Log message.
