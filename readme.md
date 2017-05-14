@@ -60,8 +60,8 @@ catch {
 	<colgroup width="200"></colgroup>
 	<colgroup width="800"></colgroup>
 	<tr>
-		<td align="center">Function Name</td>
-		<td align="center">Purpose</td>
+		<td width="200"><strong>Function Name</strong></td>
+		<td align="center"><strong>Purpose</strong></td>
 	</tr>
 	<tr>
 		<td align="left">write-data</td>
