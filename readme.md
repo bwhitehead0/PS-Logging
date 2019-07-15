@@ -89,7 +89,7 @@ write-log -logMessage "Logging a message."
 ```
 
 Creates a log entry similar to the following:  
-   `2017-05-14 14:55:17.815 mrkurtz - Logging a message.`
+   `2017-05-14 14:55:17.815 bwhitehead0 - Logging a message.`
 
 **Log an error or success (info)**
 
