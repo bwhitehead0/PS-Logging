@@ -26,7 +26,7 @@ A set of scripts to provide common logging functionality. Logs to both screen bu
 	</tr>
 	<tr>
 		<td align="left" style="border: 1px solid black;">get-logtime</td>
-		<td align="left" style="border: 1px solid black;">Returns current date in as type string, in format <pre>yyyy-MM-dd HH:mm:ss.fff</pre></td>
+		<td align="left" style="border: 1px solid black;">Returns current date as type string, in format <pre>yyyy-MM-dd HH:mm:ss.fff</pre></td>
 	</tr>
 	<tr>
 		<td align="left" style="border: 1px solid black;">get-function</td>
@@ -50,7 +50,7 @@ A set of scripts to provide common logging functionality. Logs to both screen bu
 			<br>
 			<strong style="text-decoration: underline;">logTime</strong> (optional) - If not specified, calls <code>get-logtime</code> function.
 			<br>
-			<strong style="text-decoration: underline;">logType</strong> (optional) - Type of log message (error, trace, debug, etc). If not specified, defaults to <code>0</code> (Error). Dependent on <code>$global:logLevel</code (see below).
+			<strong style="text-decoration: underline;">logType</strong> (optional) - Type of log message (error, trace, debug, etc). If not specified, defaults to <code>0</code> (Error). Dependent on <code>$global:logLevel</code> (see below).
 			<br>
 			<strong style="text-decoration: underline;">messageContext</strong> (optional) - If not specified, calls <code>get-function -context 2</code> to determine calling function. Can be specified in order to identify other event contexts in log.
 			<br>
